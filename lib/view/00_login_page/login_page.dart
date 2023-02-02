@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-import 'package:ilkda_client/view/00_login_page/test_page.dart';
 import 'package:ilkda_client/view_model/user_controller.dart';
-import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({Key? key}) : super(key: key);
@@ -17,13 +15,10 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
 
-    Get.find<UserController>().ifKakaoTokenInLocalStorage().then((value) => {
-      if(value){
-        Get.to(() => TestPage(text: Get.find<UserController>().kakaoToken.value))
-      }
+    Get.find<UserController>().ifKakaoTokenInLocalStorage().then((value) {
+      //페이지 이동
     });
   }
 
@@ -70,7 +65,7 @@ class _LogInPageState extends State<LogInPage> {
     onPressed: () async {
       if( await Get.find<UserController>().tryKakaoLogin()){
         print("login success!");
-        Get.to(() => TestPage(text: Get.find<UserController>().kakaoToken.value));
+        //페이지 이동
       }
       else{
         print("login failed!");

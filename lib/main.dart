@@ -24,6 +24,7 @@ class IlkdaClient extends StatelessWidget {
           initialRoute: "/LogIn",
           initialBinding: BindingsBuilder(() {}),
           getPages: [
+
             GetPage(
               name: "/LogIn",
               page: () => const LogInPage(),
@@ -31,7 +32,9 @@ class IlkdaClient extends StatelessWidget {
                 Get.put(UserController());
               }),
             ),
+
           ],
+
           theme: ThemeData(
             fontFamily: "RIDIBatang",
 
