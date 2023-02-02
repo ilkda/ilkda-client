@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/view/00_login_page/login_page.dart';
+import 'package:ilkda_client/view_model/user_controller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 void main() {
@@ -26,6 +27,9 @@ class IlkdaClient extends StatelessWidget {
             GetPage(
               name: "/LogIn",
               page: () => const LogInPage(),
+              binding: BindingsBuilder(() {
+                Get.put(UserController());
+              }),
             ),
           ],
           theme: ThemeData(

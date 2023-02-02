@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/view/00_login_page/test_page.dart';
+import 'package:ilkda_client/view_model/user_controller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class LogInPage extends StatelessWidget {
