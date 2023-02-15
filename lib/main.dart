@@ -23,7 +23,7 @@ class IlkdaClient extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: '읽다',
-          initialRoute: "/Home",
+          initialRoute: "/LogIn",
           initialBinding: BindingsBuilder(() {}),
           getPages: [
             GetPage(
