@@ -1,35 +1,66 @@
 import 'package:get/get.dart';
-import 'package:ilkda_client/servicies/kakao_login/kakao_oauth_login.dart';
-import 'package:ilkda_client/servicies/kakao_login/kakao_oauth_token_from_local_storage.dart';
+import 'package:ilkda_client/servicies/login/login_kakao_oauth.dart';
+import 'package:ilkda_client/servicies/login/get_refresh_token_from_local_storage.dart';
+import 'package:ilkda_client/servicies/login/login_server.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 class UserController extends GetxController{
 
-  //Kakao LogIn
-  RxString kakaoToken = "".obs;
+  //////////////////////////////////////////////////////////////////////////////Log in & Authorization
+  RxString accessToken = "".obs;
 
-  Future<bool> ifKakaoTokenInLocalStorage() async {
-    String? token = await getKakaoOauthTokenFromLocalStorage();
+  ////chech if there is a refresh token in local storage
+  Future<bool> ifRefreshTokenInLocalStorage() async {
+    String? refreshToken = await getRefreshTokenFromLocalStorage();
 
-    if(token == null){
+    if(refreshToken == null){
       return false;
     }
     else{
-      kakaoToken(token);
+      trySignin(refreshToken);
       return true;
     }
   }
 
+  ////try to signin with kakao
+  //and if success, try to login with server
+  //and if finally success, return true
   Future<bool> tryKakaoLogin() async {
     OAuthToken? token = await kakaoLogin();
     if(token == null){
       return false;
     }
-    else{
-      writeKakaoOauthTokenToLocalStorage(token.accessToken);
-      kakaoToken(token.accessToken);
-      return true;
+
+    if(await trySignUp(token) == false){
+      return false;
     }
+
+    return true;
   }
 
+  ////try to signUp with server
+  //if success, keep the accessToken
+  Future<bool> trySignUp(OAuthToken token) async{
+    String accessToken = await POSTtryServerSignUP(token.accessToken);
+    print(accessToken);
+    if(accessToken == ""){
+      return false;
+    }
+
+    this.accessToken(accessToken);
+    return true;
+  }
+
+  ////try to signin with server
+  //if success, keep the accessToken
+  Future<bool> trySignin(String ilkdaRefreshToken) async{
+    String accessToken = await GETtryServerSignin(ilkdaRefreshToken);
+    print(accessToken);
+    if(accessToken == ""){
+      return false;
+    }
+
+    this.accessToken(accessToken);
+    return true;
+  }
 }
