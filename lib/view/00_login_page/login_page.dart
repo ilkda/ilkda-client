@@ -16,9 +16,9 @@ class _LogInPageState extends State<LogInPage> {
   @override
   void initState() {
     super.initState();
-
-    Get.find<UserController>().ifKakaoTokenInLocalStorage().then((value) {
+    Get.find<UserController>().ifRefreshTokenInLocalStorage().then((value) {
       //페이지 이동
+      if(value) Get.toNamed("/Home");
     });
   }
 
@@ -42,7 +42,7 @@ class _LogInPageState extends State<LogInPage> {
     );
   }
 
-  //////////////////////////////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////////elements
   _title() => Container(
     width: 197.w,
     height: 77.h,
@@ -66,6 +66,7 @@ class _LogInPageState extends State<LogInPage> {
       if( await Get.find<UserController>().tryKakaoLogin()){
         print("login success!");
         //페이지 이동
+        Get.toNamed("/Home");
       }
       else{
         print("login failed!");
