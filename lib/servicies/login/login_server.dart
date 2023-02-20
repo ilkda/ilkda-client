@@ -15,15 +15,20 @@ Future<String> POSTtryServerSignUP(String kakaoAccessToken) async {
   try {
     final response = await http.post(
       Uri.parse('http://${baseUrl}/${signUpURL}'),
-      body: {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: jsonEncode({
         "kakaoToken": kakaoAccessToken
-      }
+      })
     );
 
     switch (response.statusCode) {
       case 200:
-        writeRefreshOauthTokenToLocalStorage(Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["refreshToken"]);
-        return Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["accessToken"];
+        Map<String, dynamic> responseObj = Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["response"];
+        writeRefreshOauthTokenToLocalStorage(responseObj["refreshToken"]);
+        // print("access Token : ${responseObj["accessToken"]}");
+        return responseObj["accessToken"];
       case 401:
         apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
         break;
@@ -40,21 +45,28 @@ Future<String> POSTtryServerSignUP(String kakaoAccessToken) async {
 
 ////try to login with server
 //if success, return accessToken, and store refreshToken in local storage
-Future<String> GETtryServerSignin(String ilkdaRefreshToken) async {
+Future<String> POSTtryServerSignin(String ilkdaRefreshToken) async {
   ApiResponse apiResponse = ApiResponse();
 
   try {
     final response = await http.post(
-      Uri.parse('http://${baseUrl}/${signInURL}?'),
-      body: {
-        "refreshToken": ilkdaRefreshToken
-      }
+        Uri.parse('http://${baseUrl}/${signInURL}'),
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: jsonEncode({
+          "refreshToken": ilkdaRefreshToken
+        })
     );
+
+    // print(response.body);
 
     switch (response.statusCode) {
       case 200:
-        writeRefreshOauthTokenToLocalStorage(Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["refreshToken"]);
-        return Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["accessToken"];
+        Map<String, dynamic> responseObj = Map<String, dynamic>.from(jsonDecode(utf8.decode(response.bodyBytes)))["response"];
+        writeRefreshOauthTokenToLocalStorage(responseObj["refreshToken"]);
+        // print("access Token : ${responseObj["accessToken"]}");
+        return responseObj["accessToken"];
       case 401:
         apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
         break;
