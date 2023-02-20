@@ -9,16 +9,16 @@ class UserController extends GetxController{
   //////////////////////////////////////////////////////////////////////////////Log in & Authorization
   RxString accessToken = "".obs;
 
-  ////chech if there is a refresh token in local storage
-  Future<bool> ifRefreshTokenInLocalStorage() async {
+  //// try auto sign in
+  // check if there is a refresh token in local storage
+  Future<bool> tryAutoSignIn() async {
     String? refreshToken = await getRefreshTokenFromLocalStorage();
 
     if(refreshToken == null){
       return false;
     }
     else{
-      trySignin(refreshToken);
-      return true;
+      return trySignin(refreshToken);
     }
   }
 
@@ -27,6 +27,7 @@ class UserController extends GetxController{
   //and if finally success, return true
   Future<bool> tryKakaoLogin() async {
     OAuthToken? token = await kakaoLogin();
+    print(token!.accessToken);
     if(token == null){
       return false;
     }
@@ -42,7 +43,6 @@ class UserController extends GetxController{
   //if success, keep the accessToken
   Future<bool> trySignUp(OAuthToken token) async{
     String accessToken = await POSTtryServerSignUP(token.accessToken);
-    print(accessToken);
     if(accessToken == ""){
       return false;
     }
@@ -54,8 +54,7 @@ class UserController extends GetxController{
   ////try to signin with server
   //if success, keep the accessToken
   Future<bool> trySignin(String ilkdaRefreshToken) async{
-    String accessToken = await GETtryServerSignin(ilkdaRefreshToken);
-    print(accessToken);
+    String accessToken = await POSTtryServerSignin(ilkdaRefreshToken);
     if(accessToken == ""){
       return false;
     }
