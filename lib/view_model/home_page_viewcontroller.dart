@@ -1,5 +1,6 @@
+import "package:flutter/material.dart";
 import 'package:get/get.dart';
-import 'package:ilkda_client/model/aladin_open_api.dart';
+import 'package:ilkda_client/model/aladin_book.dart';
 
 class HomePageViewController extends GetxController{
   @override
