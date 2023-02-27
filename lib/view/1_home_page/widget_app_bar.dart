@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:get/get.dart';
+import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
 Widget appBarHomePage() => Container(
   height: 55.h,
@@ -32,35 +34,19 @@ Widget _logoSection() => Row(
   ],
 );
 
-Widget _serachBarSection() => Container(
-  height: 23.h,
-  width: 251.w,
-  alignment: Alignment.center,
-  decoration: BoxDecoration(
-    color: Color(0xFFF2F2F2),
-    borderRadius: BorderRadius.circular(8.5.r),
-  ),
-  padding: EdgeInsets.all(0),
-  child: TextField(
-    textAlignVertical: TextAlignVertical.center,
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.all(11),
-      hintText: "검색어를 입력하세요",
-      enabledBorder: UnderlineInputBorder(
-        borderSide: BorderSide(
-          color: Colors.transparent,
-        ),
-      ),
-      focusedBorder: _transparentBorder(),
-      hintStyle: TextStyle(
-          fontSize: 12.sp,
-          color: const Color(0xFF9E9E9E),
-      ),
+Widget _serachBarSection() => GestureDetector(
+  onTap: (){
+    Get.toNamed("/Home/Search");
+  },
+  child: Container(
+    height: 23.h,
+    width: 251.w,
+    alignment: Alignment.center,
+    decoration: BoxDecoration(
+      color: Color(0xFFF2F2F2),
+      borderRadius: BorderRadius.circular(8.5.r),
     ),
-    style: TextStyle(
-      fontSize: 12.sp,
-      color: Colors.black,
-    ),
+    padding: EdgeInsets.all(0),
   ),
 );
 

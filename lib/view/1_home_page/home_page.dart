@@ -14,6 +14,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() =>Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Column(
         children: [
           SizedBox(height: 47.h,),

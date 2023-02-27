@@ -14,7 +14,7 @@ Future<String> POSTtryServerSignUP(String kakaoAccessToken) async {
 
   try {
     final response = await http.post(
-      Uri.parse('http://${baseUrl}/${signUpURL}'),
+      Uri.parse('http://${baseUrl}/${URLsignUp}'),
       headers: {
         "Content-Type": "application/json",
       },
@@ -50,7 +50,7 @@ Future<String> POSTtryServerSignin(String ilkdaRefreshToken) async {
 
   try {
     final response = await http.post(
-        Uri.parse('http://${baseUrl}/${signInURL}'),
+        Uri.parse('http://${baseUrl}/${URLsignIn}'),
         headers: {
           "Content-Type": "application/json",
         },

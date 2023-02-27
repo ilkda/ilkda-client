@@ -92,7 +92,7 @@ class _LogInPageState extends State<LogInPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        Image.asset("assets/image/kakao.png", height: 25.h,),
+        Image.asset("assets/images/kakao.png", height: 25.h,),
         Container(
           width: 166.w,
           height: 25.h,
