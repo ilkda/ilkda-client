@@ -1,6 +1,8 @@
 import "package:flutter/material.dart";
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ilkda_client/view/12_read_book_page/read_book_page.dart';
+import 'package:ilkda_client/view/13_book_report_page/book_report_page.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'view/0_login_page/login_page.dart';
@@ -47,10 +49,25 @@ class IlkdaClient extends StatelessWidget {
               name: "/Home/Search",
               page: () => const SearchPage(),
             ),
+            GetPage(
+              name: "/Home/ReadBook",
+              page: () => const ReadBookPage(),
+              binding: BindingsBuilder(() {
+                Get.put(HomePageViewController());
+              }),
+            ),
+            GetPage(
+              name: "/Home/BookReport",
+              page: () => const BookReportPage(),
+              binding: BindingsBuilder(() {
+                Get.put(HomePageViewController());
+              }),
+            ),
           ],
 
           theme: ThemeData(
             fontFamily: "RIDIBatang",
+
 
             primaryColorDark: Colors.black,
             primaryColorLight: Colors.white,
