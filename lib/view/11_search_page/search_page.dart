@@ -17,7 +17,7 @@ class SearchPage extends StatelessWidget {
       body: Column(
         children: [
           SizedBox(height: 47.h,),
-          appBarHomePage(),
+          appBarSearchPage(),
           searchResultList(),
           navigationBarHomePage(),
         ],
