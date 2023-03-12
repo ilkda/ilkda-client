@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:ilkda_client/constants/key.dart';
-
 import 'package:ilkda_client/servicies/api.dart';
+
 import 'package:ilkda_client/view_model/user_controller.dart';
 
 class Book{
@@ -24,6 +24,16 @@ class Book{
     required this.publishedDate,
     required this.page,
     required this.cover,
+  });
+
+  Book.nullInit({
+    this.id = 0,
+    this.title = "",
+    this.author = "",
+    this.publisher = "",
+    this.publishedDate = "",
+    this.page = 0,
+    this.cover = "",
   });
 
   //////////////////////////////////////////////////////////////////////////////Search Book List
@@ -82,22 +92,20 @@ class Book{
   }
 
   //////////////////////////////////////////////////////////////////////////////register Book on Read List
-  static Future<String> RegisterBookJson(dynamic json){
-    return Map<String, dynamic>.from(json)["response"];
-  }
 
-  static Future<String> POSTReisterBook({required int id}) async {
+  static Future<int> POSTReisterBook({required int id}) async {
     ApiResponse apiResponse = ApiResponse();
+
 
     try {
       final response = await http.post(
-        Uri.parse("http://" + baseUrl + '/' + URLregisterBook),
+        Uri.parse("http://$baseUrl/$URLRecord"),
         headers: {
           "Authorization" : "Bearer " + Get.find<UserController>().accessToken.value,
           "Content-Type": "application/json",
         },
         body: jsonEncode({
-          "BookId": id
+          "bookId": id
         })
       );
 
@@ -105,17 +113,14 @@ class Book{
 
       switch (response.statusCode) {
         case 200:
-          return Book.RegisterBookJson(json.decode(utf8.decode(response.bodyBytes)));
+          return Map<String, dynamic>.from(json.decode(response.body))["response"];
         default:
           apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
-          return response.statusCode.toString();
       }
     } on SocketException {
       apiResponse.apiError = ApiError(error: "Server error. Please retry");
     }
 
-    return "failed!";
+    return -1;
   }
-
-
 }

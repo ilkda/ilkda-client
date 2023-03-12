@@ -41,7 +41,15 @@ class AladinBook{
 
     try {
       final response = await http.get(
-        Uri.parse('http://www.aladin.co.kr/ttb/api/ItemList.aspx?MaxResults=${MaxResults}&start=${start}&SearchTarget=${SearchTarget}&Version=${Version}&ttbkey=$aladinTTBKey&QueryType=$QueryType&output=js'),
+        Uri.parse('http://www.aladin.co.kr/ttb/api/ItemList.aspx?'
+            'MaxResults=${MaxResults}'
+            '&start=${start}'
+            '&SearchTarget=${SearchTarget}'
+            '&Version=${Version}'
+            '&ttbkey=$aladinTTBKey'
+            '&QueryType=$QueryType'
+            '&cover=Big'
+            '&output=js'),
       );
 
       switch (response.statusCode) {
