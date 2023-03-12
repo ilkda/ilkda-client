@@ -12,16 +12,6 @@ class LogInPage extends StatefulWidget {
 }
 
 class _LogInPageState extends State<LogInPage> {
-
-  @override
-  void initState() {
-    super.initState();
-    Get.find<UserController>().tryAutoSignIn().then((value) {
-      //페이지 이동
-      if(value) Get.toNamed("/Home");
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
