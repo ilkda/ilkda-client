@@ -1,10 +1,9 @@
-
 import 'dart:convert';
 import 'dart:io';
+import 'package:http/http.dart' as http;
 
 import 'package:ilkda_client/constants/key.dart';
 import 'package:ilkda_client/servicies/api.dart';
-import 'package:http/http.dart' as http;
 
 class AladinBook{
   String title;
@@ -42,7 +41,15 @@ class AladinBook{
 
     try {
       final response = await http.get(
-        Uri.parse('http://www.aladin.co.kr/ttb/api/ItemList.aspx?MaxResults=${MaxResults}&start=${start}&SearchTarget=${SearchTarget}&Version=${Version}&ttbkey=$aladinTTBKey&QueryType=$QueryType&output=js'),
+        Uri.parse('http://www.aladin.co.kr/ttb/api/ItemList.aspx?'
+            'MaxResults=${MaxResults}'
+            '&start=${start}'
+            '&SearchTarget=${SearchTarget}'
+            '&Version=${Version}'
+            '&ttbkey=$aladinTTBKey'
+            '&QueryType=$QueryType'
+            '&cover=Big'
+            '&output=js'),
       );
 
       switch (response.statusCode) {
