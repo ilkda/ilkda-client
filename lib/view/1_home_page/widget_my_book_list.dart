@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/model/aladin_book.dart';
+import 'package:ilkda_client/model/record.dart';
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
 Widget homePageMyBookList(){
@@ -30,22 +31,34 @@ Widget _myBookList() => Container(
   ),
   child: RotatedBox(
     quarterTurns: -1,
-    child: ListWheelScrollView(
-      itemExtent: 100.w,
-      children: Get.find<HomePageViewController>()
-          .aladinBooks
-          .map(
-            (e) => RotatedBox(
-              quarterTurns: 1,
-              child: _book(e),
-            )
-      ).toList(),
+    child: GestureDetector(
+      onTap: (){
+
+        if(Get.find<HomePageViewController>().currentRecordList.isNotEmpty
+            && Get.find<HomePageViewController>().updateCurrentBookRecord_fromIndex()) {
+          Get.toNamed("/Home/ReadBook");
+        }
+      },
+      child: ListWheelScrollView(
+        itemExtent: 120.w,
+        onSelectedItemChanged: (index) {
+          Get.find<HomePageViewController>().currentRecordIndex(index);
+        },
+        children: Get.find<HomePageViewController>()
+            .currentRecordList
+            .map(
+              (e) => RotatedBox(
+                quarterTurns: 1,
+                child: _book(e),
+              )
+        ).toList(),
+      ),
     ),
   )
 );
 
-Widget _book(AladinBook book) => Container(
-  color: Colors.blue,
+Widget _book(Record bookRecord) => Container(
   alignment: Alignment.center,
-  child: Image.network(book.cover),
+  width: 300.w,
+  child: Image.network(bookRecord.book.cover),
 );
