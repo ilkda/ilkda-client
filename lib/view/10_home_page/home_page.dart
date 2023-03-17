@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() =>Scaffold(
+    return Obx(() => Scaffold(
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
