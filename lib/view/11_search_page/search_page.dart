@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:ilkda_client/view/11_search_page/search_result_list.dart';
 
 import 'widget_app_bar.dart';
-import '../1_home_page/widget_navigation_bar.dart';
+import '../10_home_page/widget_navigation_bar.dart';
 
 
 class SearchPage extends StatelessWidget {
