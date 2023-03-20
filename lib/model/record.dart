@@ -58,6 +58,7 @@ class Record{
           )
       );
     });
+    newRecordList.add(Record.nullInit(book: Book.nullInit()));
     return newRecordList;
   }
 

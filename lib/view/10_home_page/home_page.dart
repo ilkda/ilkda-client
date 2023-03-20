@@ -31,13 +31,13 @@ class _HomePageState extends State<HomePage> {
       resizeToAvoidBottomInset: false,
       body: Column(
         children: [
-          SizedBox(height: 47.h,),
+          SizedBox(height: 47.h, ),
           appBarHomePage(),
-          SizedBox(height: 26.h,),
+          SizedBox(height: 13.h,),
           homePageMyBookList(),
-          SizedBox(height: 136.h,),
+          SizedBox(height: 21.h,),
           homePageNewBookList(),
-          SizedBox(height: 65.68.h,),
+          SizedBox(height: 64.68.h,),
           navigationBarHomePage(),
         ],
       ),
