@@ -8,14 +8,15 @@ class HomePageViewController extends GetxController{
 
   //////////////////////////////////////////////////////////////////////////////home page
   //Current Record Lists
-  RxList<Record> currentRecordList = <Record>[].obs;
-  RxInt currentRecordIndex = 0.obs;
+  RxList<Record> currentRecordList = <Record>[Record.nullInit(book: Book.nullInit())].obs;
+
   void updateCurrentRecordList(List<Record> newRecordList) {
     currentRecordList(newRecordList);
     if(currentRecordList.isNotEmpty){
       currentBookRecord(currentRecordList[0]);
     }
   }
+
   void searchCurrentRecordList() async {
     updateCurrentRecordList(
       await Record
@@ -23,9 +24,19 @@ class HomePageViewController extends GetxController{
     );
   }
 
-  bool updateCurrentBookRecord_fromIndex(){
-    currentBookRecord(currentRecordList[currentRecordIndex.value]);
-    return true;
+  //Current Book Record Index
+  RxInt currentRecordIndex = 0.obs;
+
+  void increaseRecordIndex(){
+    if(currentRecordIndex.value < currentRecordList.length - 1){
+      currentRecordIndex(currentRecordIndex.value + 1);
+    }
+  }
+
+  void decreaseRecordIndex(){
+    if(currentRecordIndex.value > 0){
+      currentRecordIndex(currentRecordIndex.value - 1);
+    }
   }
 
   //Aladin Recommended BookLists
