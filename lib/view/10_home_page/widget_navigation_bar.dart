@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget navigationBarHomePage() => Hero(
+Widget navigationBarHomePage(BuildContext context) => Hero(
   tag: "navigationBar",
-  child:   Container(
-    height: 65.h,
+  child: Container(
+    height: 64.h,
     width: 360.w,
     decoration: BoxDecoration(
-      color: Colors.white,
+      color: context.theme.colorScheme.background,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.25),

@@ -3,24 +3,37 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/model/aladin_book.dart';
 import 'package:ilkda_client/model/record.dart';
+import 'package:ilkda_client/view/12_read_book_page/read_book_page.dart';
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
-Widget homePageMyBookList(){
+Widget homePageMyBookList(BuildContext context){
   return Container(
     width: 360.w,
-    height: 369.h,
+    height: 370.h,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 9.0),
+          padding: EdgeInsets.only(left: 16.w, right: 205.w),
           child: Text("지금 책을 읽어보세요", style: TextStyle(
             fontSize: 14.sp,
+            color: context.theme.colorScheme.outline.withOpacity(0.8),
+            fontWeight: FontWeight.w600,
           ),),
         ),
         _myBookList(),
-        _content(Get.find<HomePageViewController>().currentRecordList[Get.find<HomePageViewController>().currentRecordIndex.value]),
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 32.h,)
+        : _content(
+          context,
+          Get.find<HomePageViewController>().currentBookRecord.value.book.title,
+          Get.find<HomePageViewController>().currentBookRecord.value.book.author
+        ),
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 14.h,)
+        : _pageIndicator(
+          context,
+          (100 * Get.find<HomePageViewController>().currentBookRecord.value.readPage / Get.find<HomePageViewController>().currentBookRecord.value.book.page).toInt(),
+        ),
       ],
     ),
   );
@@ -28,7 +41,7 @@ Widget homePageMyBookList(){
 
 Widget _myBookList() => Container(
   width: 360.w,
-  height: 292.h,
+  height: 297.h,
   child:  Stack(
     children:[
       AnimatedPositioned(
@@ -92,24 +105,28 @@ Widget _myBookList() => Container(
 Widget _book(Record currentRecord) => GestureDetector(
   onTap: (){
     if(Get.find<HomePageViewController>().updateCurrentBookRecord(currentRecord) == true) {
-      Get.toNamed("/Home/ReadBook");
+      Get.to(() => ReadBookPage(), transition: Transition.downToUp, opaque: false);
     }
   },
   child: Container(
     alignment: Alignment.center,
-    width: 186.w,
-    height: 292.h,
+    width: 178.w,
+    height: 280.h,
     decoration: BoxDecoration(
+      borderRadius: BorderRadius.circular(6.r),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.2),
+          color: Colors.black.withOpacity(0.25),
           spreadRadius: 0,
-          blurRadius: 10,
-          offset: Offset(4, 4), // changes position of shadow
+          blurRadius: 5,
+          offset: Offset(5, 5), // changes position of shadow
         ),
       ],
+      image: DecorationImage(
+        image: NetworkImage(currentRecord.book.cover),
+        fit: BoxFit.cover,
+      ),
     ),
-    child: Image.network(currentRecord.book.cover),
   ),
 );
 
@@ -125,27 +142,79 @@ Widget _emptyBook() => ElevatedButton(
   child: Icon(Icons.add, color: Colors.black,),
 );
 
-Widget _content(Record bookRecord) => Container(
-  height: 59.h,
-  width: 360.w,
+Widget _content(BuildContext context, String title, String author) => Container(
+  height: 32.h,
+  width: 178.w,
   child: Column(
     children: [
-      Text(bookRecord.book.title, style: TextStyle(
+      Text(title, style: TextStyle(
         fontSize: 12.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
+        color: context.theme.colorScheme.outline,
+        fontWeight: FontWeight.w400,
+        height: 1.0,
         overflow: TextOverflow.ellipsis,
       ),),
-      Text(bookRecord.book.author, style: TextStyle(
-        fontSize: 12.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w400,
+      SizedBox(height: 1.h,),
+      Text(author, style: TextStyle(
+        fontSize: 10.sp,
+        color: context.theme.colorScheme.onSurface,
+        fontWeight: FontWeight.w300,
+        height: 1.0,
+        overflow: TextOverflow.ellipsis,
       ),),
-      SizedBox(height: 10.h,),
-      Text(bookRecord.readPage.toString() + "쪽까지 읽었어요!", style: TextStyle(
-        fontSize: 12.sp,
-        fontWeight: FontWeight.w400,
-      ),),
+    ],
+  ),
+);
+
+Widget _pageIndicator(BuildContext context, int percentage) => Container(
+  width: 279.w,
+  height: 14.h,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      Container(
+        width: 251.w,
+        height: 8.h,
+        child: Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(
+              flex: percentage,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.r),
+                    bottomLeft: Radius.circular(10.r),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 100 - percentage,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.onPrimary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.r),
+                    bottomLeft: Radius.circular(10.r),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      Container(
+        width: 21.w,
+        alignment: Alignment.centerRight,
+        child: Text(percentage.toString() + "%", style: TextStyle(
+          fontSize: 10.sp,
+          color: context.theme.colorScheme.primary,
+          fontWeight: FontWeight.w500,
+          height: 1.0,
+        ),),
+      ),
     ],
   ),
 );

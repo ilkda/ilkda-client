@@ -7,6 +7,7 @@ import 'widget_app_bar.dart';
 import 'widget_my_book_list.dart';
 import 'widget_new_book_list.dart';
 import 'widget_navigation_bar.dart';
+import 'widget_search_bar.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -29,16 +30,19 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: context.theme.colorScheme.background,
       body: Column(
         children: [
-          SizedBox(height: 47.h, ),
-          appBarHomePage(),
-          SizedBox(height: 13.h,),
-          homePageMyBookList(),
+          SizedBox(height: 38.h, ),
+          appBarHomePage(context),
+          SizedBox(height: 6.h,),
+          searchBar(context),
           SizedBox(height: 21.h,),
-          homePageNewBookList(),
-          SizedBox(height: 64.68.h,),
-          navigationBarHomePage(),
+          homePageMyBookList(context),
+          SizedBox(height: 23.h,),
+          homePageNewBookList(context),
+          SizedBox(height: 22.h,),
+          navigationBarHomePage(context),
         ],
       ),
     ));
