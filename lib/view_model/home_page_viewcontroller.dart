@@ -30,12 +30,14 @@ class HomePageViewController extends GetxController{
   void increaseRecordIndex(){
     if(currentRecordIndex.value < currentRecordList.length - 1){
       currentRecordIndex(currentRecordIndex.value + 1);
+      updateCurrentBookRecord(currentRecordList[currentRecordIndex.value]);
     }
   }
 
   void decreaseRecordIndex(){
     if(currentRecordIndex.value > 0){
       currentRecordIndex(currentRecordIndex.value - 1);
+      updateCurrentBookRecord(currentRecordList[currentRecordIndex.value]);
     }
   }
 
@@ -127,7 +129,7 @@ class HomePageViewController extends GetxController{
   }
 
   //////////////////////////////////////////////////////////////////////////////book report page
-  RxString bookReportText = (" " * 187).obs;
+  RxString bookReportText = (" " * 231).obs;
   FocusNode bookReportFocusNode = FocusNode();
   RxBool ifReadMode = true.obs;
   void changeMode(){
