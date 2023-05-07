@@ -93,11 +93,7 @@ class Record{
   }
 
   //////////////////////////////////////////////////////////////////////////////[PUT] page modify
-  static Future<bool> PUTModifyCurrentBookPage({required int readId, required int newPage}) async {
-    ApiResponse apiResponse = ApiResponse();
-
-    print(readId);
-
+  static Future<int> PUTModifyCurrentBookPage({required int readId, required int newPage}) async {
     try {
       final response = await http.put(
           Uri.parse("http://$baseUrl/$URLRecord/$readId/$URLPageModify"),
@@ -112,21 +108,10 @@ class Record{
 
       print(utf8.decode(response.bodyBytes));
 
-      switch (response.statusCode) {
-        case 200:
-          return true;
-        case 401:
-          apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
-          break;
-        default:
-          apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
-          break;
-      }
+      return response.statusCode;
     } on SocketException {
-      apiResponse.apiError = ApiError(error: "Server error. Please retry");
+      return 500;
     }
-
-    return false;
   }
 
   //////////////////////////////////////////////////////////////////////////////[PUT] review modify
