@@ -39,6 +39,7 @@ class HomePageViewController extends GetxController{
       await Record
       .GETCurrentRecordList()
     );
+    currentRecordIndex(0);
   }
 
   //Current Book Record Index
@@ -169,7 +170,6 @@ class HomePageViewController extends GetxController{
 
   void updateBookReportText(String newBookReportText){
       bookReportText(newBookReportText);
-      bookReportController.text = bookReportText.value;
   }
 
   Future<bool> saveBookReview() async{

@@ -47,10 +47,9 @@ Widget _myBookList() => Container(
     children:[
       AnimatedPositioned(
         duration: Duration(milliseconds: 200),
-        width: (186.w * Get.find<HomePageViewController>().currentRecordList.length),
         left: -1 * (
-            (186.w * (Get.find<HomePageViewController>().currentRecordIndex.value - 1) )
-            + 99.w
+            (178.w * (Get.find<HomePageViewController>().currentRecordIndex.value - 1) )
+            + 91.w
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -69,7 +68,6 @@ Widget _myBookList() => Container(
           left: 0,
           child: GestureDetector(
             onTap: (){
-              print(Get.find<HomePageViewController>().currentRecordList.length);
               Get.find<HomePageViewController>().decreaseRecordIndex();
             },
             onVerticalDragEnd: (value){

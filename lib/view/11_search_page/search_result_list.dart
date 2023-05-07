@@ -33,16 +33,17 @@ Widget _listElement(Book book){
     onTap: (){
       Get.find<HomePageViewController>().registerBook(book.id).then(
         (value) {
-          if(value != -1){
-            if(Get.find<HomePageViewController>().updateCurrentBookRecord(Record(
-              book: book,
-              readId: value,
-              readPage : 0,
-              review: "",
-            )) == true) {
-              Get.to(() => ReadBookPage(), transition: Transition.downToUp, opaque: false);
-            }
-          }
+          Get.offAndToNamed("/Home");
+          // if(value != -1){
+          //   if(Get.find<HomePageViewController>().updateCurrentBookRecord(Record(
+          //     book: book,
+          //     readId: value,
+          //     readPage : 0,
+          //     review: "",
+          //   )) == true) {
+          //     Get.to(() => ReadBookPage(), transition: Transition.downToUp, opaque: false);
+          //   }
+          // }
         });
     },
     child: Container(
