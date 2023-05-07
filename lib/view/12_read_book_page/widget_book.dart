@@ -8,8 +8,8 @@ Widget book() {
   return Positioned(
     top: 69.h,
     child: Container(
-      width: 220.w,
-      height: 346.h,
+      // width: 220.w,
+      height: 310.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(6.r),
         boxShadow: [
@@ -20,10 +20,11 @@ Widget book() {
             offset: Offset(0, 5), // changes position of shadow
           ),
         ],
-        image: DecorationImage(
-          image: NetworkImage(
-            Get.find<HomePageViewController>().currentBookRecord.value.book.cover,
-          ),
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6.r),
+        child: Image.network(
+          Get.find<HomePageViewController>().currentBookRecord.value.book.cover,
           fit: BoxFit.cover,
         ),
       ),

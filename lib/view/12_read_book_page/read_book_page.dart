@@ -12,7 +12,7 @@ class ReadBookPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return Obx(() => Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.transparent,
       body: Stack(
@@ -26,7 +26,7 @@ class ReadBookPage extends StatelessWidget {
           navigationBarReadBookPage(context),
         ],
       ),
-    );
+    ));
   }
 }
 
@@ -35,10 +35,10 @@ Widget _background(BuildContext context) => Positioned(
   height: 800.h,
   child: GestureDetector(
     onTap: (){
-      Get.back();
+      Get.offAndToNamed("/Home");
     },
     child: Container(
-      color: context.theme.colorScheme.onPrimary.withOpacity(0.9),
+      color: context.theme.colorScheme.surface.withOpacity(0.9),
     ),
   ),
 );

@@ -57,13 +57,8 @@ Widget _recordButton(BuildContext context) => GestureDetector(
 
 Widget _readEndButton(BuildContext context) => GestureDetector(
   onTap: (){
-    Get
-      .find<HomePageViewController>()
-      .finishCurrentBook()
-      .then(
-        (value){ if(value) {
-          Get.toNamed("/Home");
-      }});
+    Get.dialog(DialogPageModify(), barrierColor: Colors.transparent, barrierDismissible: true);
+//    Get.to(()=>DialogPageModify(), opaque: false);
   },
   child: Container(
     width: 107.w,

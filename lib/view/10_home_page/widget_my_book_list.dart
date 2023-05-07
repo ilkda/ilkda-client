@@ -9,7 +9,7 @@ import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 Widget homePageMyBookList(BuildContext context){
   return Container(
     width: 360.w,
-    height: 370.h,
+    height: 359.h,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -22,14 +22,16 @@ Widget homePageMyBookList(BuildContext context){
             fontWeight: FontWeight.w600,
           ),),
         ),
+        SizedBox(height: 8.h,),
         _myBookList(),
-        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 32.h,)
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 17.h,)
         : _content(
           context,
           Get.find<HomePageViewController>().currentBookRecord.value.book.title,
           Get.find<HomePageViewController>().currentBookRecord.value.book.author
         ),
-        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 14.h,)
+        SizedBox(height: 2.h,),
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 17.h,)
         : _pageIndicator(
           context,
           (100 * Get.find<HomePageViewController>().currentBookRecord.value.readPage / Get.find<HomePageViewController>().currentBookRecord.value.book.page).toInt(),
@@ -40,8 +42,7 @@ Widget homePageMyBookList(BuildContext context){
 }
 
 Widget _myBookList() => Container(
-  width: 360.w,
-  height: 297.h,
+  height: 290.h,
   child:  Stack(
     children:[
       AnimatedPositioned(
@@ -103,6 +104,13 @@ Widget _myBookList() => Container(
 );
 
 Widget _book(Record currentRecord) => GestureDetector(
+  onPanEnd: (value){
+    if(value.velocity.pixelsPerSecond.dx > 0){
+      Get.find<HomePageViewController>().decreaseRecordIndex();
+    } else {
+      Get.find<HomePageViewController>().increaseRecordIndex();
+    }
+  },
   onTap: (){
     if(Get.find<HomePageViewController>().updateCurrentBookRecord(currentRecord) == true) {
       Get.to(() => ReadBookPage(), transition: Transition.downToUp, opaque: false);
@@ -112,69 +120,76 @@ Widget _book(Record currentRecord) => GestureDetector(
     alignment: Alignment.center,
     width: 178.w,
     height: 280.h,
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(6.r),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.25),
-          spreadRadius: 0,
-          blurRadius: 5,
-          offset: Offset(5, 5), // changes position of shadow
+    child: Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            spreadRadius: 0,
+            blurRadius: 5,
+            offset: Offset(5, 5), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6.r),
+        child: Image.network(
+          currentRecord.book.cover,
+          fit: BoxFit.cover,
         ),
-      ],
-      image: DecorationImage(
-        image: NetworkImage(currentRecord.book.cover),
-        fit: BoxFit.cover,
       ),
     ),
   ),
 );
 
-Widget _emptyBook() => ElevatedButton(
-  onPressed: (){},
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    fixedSize: Size(186.w, 292.h),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.r),
-    ),
+Widget _emptyBook() => Container(
+  decoration: BoxDecoration(
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.25),
+        spreadRadius: 0,
+        blurRadius: 5,
+        offset: Offset(5, 5), // changes position of shadow
+      ),
+    ],
   ),
-  child: Icon(Icons.add, color: Colors.black,),
+  child: ElevatedButton(
+    onPressed: (){
+      Get.toNamed("/Home/Search");
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      fixedSize: Size(178.w, 280.h),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+    ),
+    child: Icon(Icons.add, color: Colors.black,),
+  ),
 );
 
 Widget _content(BuildContext context, String title, String author) => Container(
-  height: 32.h,
+  height: 17.h,
   width: 178.w,
-  child: Column(
-    children: [
-      Text(title, style: TextStyle(
-        fontSize: 12.sp,
-        color: context.theme.colorScheme.outline,
-        fontWeight: FontWeight.w400,
-        height: 1.0,
-        overflow: TextOverflow.ellipsis,
-      ),),
-      SizedBox(height: 1.h,),
-      Text(author, style: TextStyle(
-        fontSize: 10.sp,
-        color: context.theme.colorScheme.onSurface,
-        fontWeight: FontWeight.w300,
-        height: 1.0,
-        overflow: TextOverflow.ellipsis,
-      ),),
-    ],
-  ),
+  child: Text(title, style: TextStyle(
+    fontSize: 12.sp,
+    color: context.theme.colorScheme.outline,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    overflow: TextOverflow.ellipsis,
+  ),),
 );
 
 Widget _pageIndicator(BuildContext context, int percentage) => Container(
-  width: 279.w,
-  height: 14.h,
+  width: 283.w,
+  height: 17.h,
   child: Row(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       Container(
         width: 251.w,
-        height: 8.h,
+        height: 10.h,
         child: Flex(
           direction: Axis.horizontal,
           children: [
@@ -196,8 +211,8 @@ Widget _pageIndicator(BuildContext context, int percentage) => Container(
                 decoration: BoxDecoration(
                   color: context.theme.colorScheme.onPrimary,
                   borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(10.r),
-                    bottomLeft: Radius.circular(10.r),
+                    topRight: Radius.circular(10.r),
+                    bottomRight: Radius.circular(10.r),
                   ),
                 ),
               ),
@@ -205,6 +220,7 @@ Widget _pageIndicator(BuildContext context, int percentage) => Container(
           ],
         ),
       ),
+      SizedBox(width: 7.w,),
       Container(
         width: 21.w,
         alignment: Alignment.centerRight,

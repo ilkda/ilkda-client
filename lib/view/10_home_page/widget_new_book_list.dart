@@ -6,20 +6,20 @@ import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
 Widget homePageNewBookList(BuildContext context) => Container(
   width: 360.w,
-  height: 193.h,
+  height: 194.h + 22.h,
   child: Column(
     crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
       Padding(
         padding: EdgeInsets.only(left: 18.w),
         child: Text("신간 리스트", style: TextStyle(
-          fontSize: 14.sp,
+          fontSize: 16.sp,
           color: context.theme.colorScheme.outline,
-          fontWeight: FontWeight.w600,
+          fontWeight: FontWeight.w500,
           height: 1.0,
         ),),
       ),
+      SizedBox(height: 12.h,),
       _newBookListFromAladin(),
     ],
   ),
@@ -27,17 +27,18 @@ Widget homePageNewBookList(BuildContext context) => Container(
 
 Widget _newBookListFromAladin() => Container(
   width: 360.w,
-  height: 158.h,
+  height: 158.h + 22.h,
   child: SingleChildScrollView(
     scrollDirection: Axis.horizontal,
     child: Row(
-     children: Get.find<HomePageViewController>().aladinBooks.map((e) => _BookWidget(e)).toList()
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: Get.find<HomePageViewController>().aladinBooks.map((e) => _BookWidget(e)).toList()
     ),
   ),
 );
 
 Widget _BookWidget(AladinBook book) => Container(
-  height: 140.h,
+  height: 158.h,
   margin: EdgeInsets.only(left: 19.w),
   decoration: BoxDecoration(
     boxShadow: [

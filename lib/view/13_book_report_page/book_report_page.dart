@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
 import 'widget_button_section.dart';
 import 'widget_text_field_section.dart';
@@ -12,46 +13,50 @@ class BookReportPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
       resizeToAvoidBottomInset: false,
-      body: Column(
+      body: Stack(
+        alignment: Alignment.center,
         children: [
-          SizedBox(height: 38.h,),
-          _title(),
-          SizedBox(height: 30.48.h,),
-          textFieldSection(),
-          SizedBox(height: 72.06.h,),
-          _divider(),
-          SizedBox(height: 25.h,),
-          buttonSection(),
+          Positioned(
+            width: 360.w,
+            height: 800.h,
+            child: Column(
+              children: [
+                SizedBox(height: 70.h,),
+                _title(context),
+                SizedBox(height: 16.h,),
+                textFieldSection(),
+              ],
+            )
+          ),
+          buttonSection(context),
         ],
       )
     ));
   }
 }
 
-Widget _title() => Container(
-  width: 299.54.w,
-  height: 20.h,
-  alignment: Alignment.centerLeft,
+Widget _title(BuildContext context) => Container(
+  width: 298.w,
+  height: 23.h,
   child: Row(
     children: [
-      SizedBox(width: 10.w,),
       GestureDetector(
         onTap: (){
+          Get.find<HomePageViewController>().toReadMode();
           Get.back();
         },
-        child: Icon(Icons.arrow_back_ios, size: 20.sp,),
+        child: Image.asset(
+          "assets/icons/back.png",
+          height: 20.91.h,
+        )
       ),
-      SizedBox(width: 13.19.w,),
+      SizedBox(width: 10.4.w,),
       Text("감상 기록", style: TextStyle(
-        fontSize: 20.sp,
-        fontWeight: FontWeight.bold
+        fontSize: 16.sp,
+        fontWeight: FontWeight.w500,
+        color: context.theme.colorScheme.outline,
+        height: 1.0,
       ),),
     ],
   ),
-);
-
-Widget _divider() => Container(
-  width: 360.w,
-  height: 6.h,
-  color: Color(0xffd9d9d9),
 );
