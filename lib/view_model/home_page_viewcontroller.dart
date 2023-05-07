@@ -9,6 +9,23 @@ class HomePageViewController extends GetxController{
   //////////////////////////////////////////////////////////////////////////////home page
   //Current Record Lists
   RxList<Record> currentRecordList = <Record>[Record.nullInit(book: Book.nullInit())].obs;
+  // RxList<Record> currentRecordList = <Record>[
+  //   Record(
+  //     book: Book(
+  //       id: 1,
+  //       title: "",
+  //       author: '',
+  //       publisher: '',
+  //       publishedDate: '',
+  //       page: 300,
+  //       cover: "https://image.yes24.com/goods/102347474/XL",
+  //     ),
+  //     readId: 0,
+  //     readPage: 120,
+  //     review: "",
+  //   ),
+  //   // Record.nullInit(book: Book.nullInit()),
+  // ].obs;
 
   void updateCurrentRecordList(List<Record> newRecordList) {
     currentRecordList(newRecordList);
@@ -22,6 +39,7 @@ class HomePageViewController extends GetxController{
       await Record
       .GETCurrentRecordList()
     );
+    currentRecordIndex(0);
   }
 
   //Current Book Record Index
@@ -30,12 +48,14 @@ class HomePageViewController extends GetxController{
   void increaseRecordIndex(){
     if(currentRecordIndex.value < currentRecordList.length - 1){
       currentRecordIndex(currentRecordIndex.value + 1);
+      updateCurrentBookRecord(currentRecordList[currentRecordIndex.value]);
     }
   }
 
   void decreaseRecordIndex(){
     if(currentRecordIndex.value > 0){
       currentRecordIndex(currentRecordIndex.value - 1);
+      updateCurrentBookRecord(currentRecordList[currentRecordIndex.value]);
     }
   }
 
@@ -59,6 +79,11 @@ class HomePageViewController extends GetxController{
 
   RxList<Book> searchBooksList = <Book>[].obs;
 
+  RxBool ifSearchResultEmpty = false.obs;
+  void updateIfSearchResultEmpty(bool newIfSearchResultEmpty){
+    ifSearchResultEmpty(newIfSearchResultEmpty);
+  }
+
   void updateSearchBooksList(List<Book> newBooks){
     searchBooksList(newBooks);
   }
@@ -70,6 +95,12 @@ class HomePageViewController extends GetxController{
         title: searchController.text,
       )
     );
+    if(searchBooksList.isEmpty){
+      updateIfSearchResultEmpty(true);
+    }
+    else{
+      updateIfSearchResultEmpty(false);
+    }
   }
 
   Future<int> registerBook(int bookID) async {
@@ -97,22 +128,20 @@ class HomePageViewController extends GetxController{
 
   bool updateCurrentBookRecord(Record newRecord){
     currentBookRecord(newRecord);
+    updateBookReportText(newRecord.review);
     return true;
   }
 
   //page modify dialog text field controller
   TextEditingController pageModifyTextEditingController = TextEditingController();
 
-  Future<bool> updateCurrentRecordPage() async{
-    bool ifSuccessed =  await Record.PUTModifyCurrentBookPage(readId: currentBookRecord.value.readId, newPage: int.parse(pageModifyTextEditingController.text));
-    if(ifSuccessed){
+  Future<int> updateCurrentRecordPage() async{
+    int statusCode =  await Record.PUTModifyCurrentBookPage(readId: currentBookRecord.value.readId, newPage: int.parse(pageModifyTextEditingController.text));
+    if(statusCode == 200){
       currentBookRecord.value.readPage = int.parse(pageModifyTextEditingController.text);
       currentBookRecord.refresh();
-      return true;
     }
-    else{
-      return false;
-    }
+    return statusCode;
   }
 
   //finish read
@@ -127,28 +156,20 @@ class HomePageViewController extends GetxController{
   }
 
   //////////////////////////////////////////////////////////////////////////////book report page
-  RxString bookReportText = (" " * 187).obs;
+  RxString bookReportText = ("").obs;
   FocusNode bookReportFocusNode = FocusNode();
+  TextEditingController bookReportController = TextEditingController();
   RxBool ifReadMode = true.obs;
-  void changeMode(){
-    if(ifReadMode.value){
-      ifReadMode(false);
-    }
-    else{
-      ifReadMode(true);
-    }
+
+  void toReadMode(){
+    ifReadMode(true);
+  }
+  void toWriteMode(){
+    ifReadMode(false);
   }
 
   void updateBookReportText(String newBookReportText){
-    if(newBookReportText.length <= 187){
-      bookReportText(newBookReportText + ' ' * (187 - newBookReportText.length));
-    }
-    else if(newBookReportText.length % 11 == 0){
       bookReportText(newBookReportText);
-    }
-    else {
-      bookReportText(newBookReportText + ' ' * (11 - newBookReportText.length % 11));
-    }
   }
 
   Future<bool> saveBookReview() async{
@@ -160,6 +181,11 @@ class HomePageViewController extends GetxController{
     else{
       return false;
     }
+  }
+
+  void rollBackBookReview(){
+    bookReportText.value = currentBookRecord.value.review;
+    bookReportController.text = bookReportText.value;
   }
 
 

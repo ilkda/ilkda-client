@@ -4,47 +4,30 @@ import 'package:get/get.dart';
 import 'package:ilkda_client/model/book.dart';
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
-Widget bookSection() {
-  return Container(
-    width: 275.w,
-    height: 479.h,
-    child: Column(
-      children: [
-        _bookImage(),
-        _bookTitle(),
-        SizedBox(height: 15.h),
-        _bookAuthor(),
-      ],
+Widget book() {
+  return Positioned(
+    top: 69.h,
+    child: Container(
+      // width: 220.w,
+      height: 310.h,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(6.r),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.1),
+            spreadRadius: 0,
+            blurRadius: 10,
+            offset: Offset(0, 5), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6.r),
+        child: Image.network(
+          Get.find<HomePageViewController>().currentBookRecord.value.book.cover,
+          fit: BoxFit.cover,
+        ),
+      ),
     ),
   );
 }
-
-////////////////////////////////////////////////////////////////////////////////elements
-Widget _bookImage() => Container(
-  height: 433.76.h,
-  child: Image.network(
-    Get.find<HomePageViewController>().currentBookRecord.value.book.cover,
-  ),
-);
-
-Widget _bookTitle() => Container(
-  width: 193.w,
-  child: Text(
-    Get.find<HomePageViewController>().currentBookRecord.value.book.title,
-    style: TextStyle(
-      fontSize: 14.sp,
-      fontWeight: FontWeight.w400,
-      overflow: TextOverflow.ellipsis,
-    ),
-  ),
-);
-
-Widget _bookAuthor() => Container(
-  child: Text(
-    Get.find<HomePageViewController>().currentBookRecord.value.book.author,
-    style: TextStyle(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w300,
-    ),
-  ),
-);

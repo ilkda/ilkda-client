@@ -3,40 +3,53 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/model/aladin_book.dart';
 import 'package:ilkda_client/model/record.dart';
+import 'package:ilkda_client/view/12_read_book_page/read_book_page.dart';
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
-Widget homePageMyBookList(){
+Widget homePageMyBookList(BuildContext context){
   return Container(
     width: 360.w,
-    height: 369.h,
+    height: 359.h,
     child: Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         Padding(
-          padding: const EdgeInsets.only(left: 9.0),
+          padding: EdgeInsets.only(left: 16.w, right: 205.w),
           child: Text("지금 책을 읽어보세요", style: TextStyle(
             fontSize: 14.sp,
+            color: context.theme.colorScheme.outline.withOpacity(0.8),
+            fontWeight: FontWeight.w600,
           ),),
         ),
+        SizedBox(height: 8.h,),
         _myBookList(),
-        _content(Get.find<HomePageViewController>().currentRecordList[Get.find<HomePageViewController>().currentRecordIndex.value]),
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 17.h,)
+        : _content(
+          context,
+          Get.find<HomePageViewController>().currentBookRecord.value.book.title,
+          Get.find<HomePageViewController>().currentBookRecord.value.book.author
+        ),
+        SizedBox(height: 2.h,),
+        Get.find<HomePageViewController>().currentRecordIndex.value == Get.find<HomePageViewController>().currentRecordList.length - 1 ? Container(height: 17.h,)
+        : _pageIndicator(
+          context,
+          (100 * Get.find<HomePageViewController>().currentBookRecord.value.readPage / Get.find<HomePageViewController>().currentBookRecord.value.book.page).toInt(),
+        ),
       ],
     ),
   );
 }
 
 Widget _myBookList() => Container(
-  width: 360.w,
-  height: 292.h,
+  height: 290.h,
   child:  Stack(
     children:[
       AnimatedPositioned(
         duration: Duration(milliseconds: 200),
-        width: (186.w * Get.find<HomePageViewController>().currentRecordList.length),
         left: -1 * (
-            (186.w * (Get.find<HomePageViewController>().currentRecordIndex.value - 1) )
-            + 99.w
+            (178.w * (Get.find<HomePageViewController>().currentRecordIndex.value - 1) )
+            + 91.w
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -55,7 +68,6 @@ Widget _myBookList() => Container(
           left: 0,
           child: GestureDetector(
             onTap: (){
-              print(Get.find<HomePageViewController>().currentRecordList.length);
               Get.find<HomePageViewController>().decreaseRecordIndex();
             },
             onVerticalDragEnd: (value){
@@ -90,62 +102,133 @@ Widget _myBookList() => Container(
 );
 
 Widget _book(Record currentRecord) => GestureDetector(
+  onPanEnd: (value){
+    if(value.velocity.pixelsPerSecond.dx > 0){
+      Get.find<HomePageViewController>().decreaseRecordIndex();
+    } else {
+      Get.find<HomePageViewController>().increaseRecordIndex();
+    }
+  },
   onTap: (){
     if(Get.find<HomePageViewController>().updateCurrentBookRecord(currentRecord) == true) {
-      Get.toNamed("/Home/ReadBook");
+      Get.to(() => ReadBookPage(), transition: Transition.downToUp, opaque: false);
     }
   },
   child: Container(
     alignment: Alignment.center,
-    width: 186.w,
-    height: 292.h,
-    decoration: BoxDecoration(
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withOpacity(0.2),
-          spreadRadius: 0,
-          blurRadius: 10,
-          offset: Offset(4, 4), // changes position of shadow
+    width: 178.w,
+    height: 280.h,
+    child: Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.25),
+            spreadRadius: 0,
+            blurRadius: 5,
+            offset: Offset(5, 5), // changes position of shadow
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(6.r),
+        child: Image.network(
+          currentRecord.book.cover,
+          fit: BoxFit.cover,
         ),
-      ],
+      ),
     ),
-    child: Image.network(currentRecord.book.cover),
   ),
 );
 
-Widget _emptyBook() => ElevatedButton(
-  onPressed: (){},
-  style: ElevatedButton.styleFrom(
-    backgroundColor: Colors.white,
-    fixedSize: Size(186.w, 292.h),
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(10.r),
-    ),
+Widget _emptyBook() => Container(
+  decoration: BoxDecoration(
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withOpacity(0.25),
+        spreadRadius: 0,
+        blurRadius: 5,
+        offset: Offset(5, 5), // changes position of shadow
+      ),
+    ],
   ),
-  child: Icon(Icons.add, color: Colors.black,),
+  child: ElevatedButton(
+    onPressed: (){
+      Get.toNamed("/Home/Search");
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.white,
+      fixedSize: Size(178.w, 280.h),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10.r),
+      ),
+    ),
+    child: Icon(Icons.add, color: Colors.black,),
+  ),
 );
 
-Widget _content(Record bookRecord) => Container(
-  height: 59.h,
-  width: 360.w,
-  child: Column(
+Widget _content(BuildContext context, String title, String author) => Container(
+  height: 17.h,
+  width: 178.w,
+  child: Text(title, style: TextStyle(
+    fontSize: 12.sp,
+    color: context.theme.colorScheme.outline,
+    fontWeight: FontWeight.w400,
+    height: 1.0,
+    overflow: TextOverflow.ellipsis,
+  ),),
+);
+
+Widget _pageIndicator(BuildContext context, int percentage) => Container(
+  width: 283.w,
+  height: 17.h,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.center,
     children: [
-      Text(bookRecord.book.title, style: TextStyle(
-        fontSize: 12.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w500,
-        overflow: TextOverflow.ellipsis,
-      ),),
-      Text(bookRecord.book.author, style: TextStyle(
-        fontSize: 12.sp,
-        color: Colors.white,
-        fontWeight: FontWeight.w400,
-      ),),
-      SizedBox(height: 10.h,),
-      Text(bookRecord.readPage.toString() + "쪽까지 읽었어요!", style: TextStyle(
-        fontSize: 12.sp,
-        fontWeight: FontWeight.w400,
-      ),),
+      Container(
+        width: 251.w,
+        height: 10.h,
+        child: Flex(
+          direction: Axis.horizontal,
+          children: [
+            Expanded(
+              flex: percentage,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.primary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10.r),
+                    bottomLeft: Radius.circular(10.r),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 100 - percentage,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: context.theme.colorScheme.onPrimary,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(10.r),
+                    bottomRight: Radius.circular(10.r),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      SizedBox(width: 7.w,),
+      Container(
+        width: 21.w,
+        alignment: Alignment.centerRight,
+        child: Text(percentage.toString() + "%", style: TextStyle(
+          fontSize: 10.sp,
+          color: context.theme.colorScheme.primary,
+          fontWeight: FontWeight.w500,
+          height: 1.0,
+        ),),
+      ),
     ],
   ),
 );

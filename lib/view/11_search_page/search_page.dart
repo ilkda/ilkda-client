@@ -13,13 +13,25 @@ class SearchPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() => Scaffold(
+      backgroundColor: context.theme.colorScheme.background,
       resizeToAvoidBottomInset: false,
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(height: 47.h,),
-          appBarSearchPage(),
-          searchResultList(),
-          navigationBarHomePage(),
+          Positioned(
+            width: 360.w,
+            height: 800.h,
+            child: Column(
+              children: [
+                SizedBox(height: 79.h,),
+                appBarSearchPage(context),
+                searchResultList(),
+              ],
+            )
+          ),
+          Positioned(
+            bottom: 0,
+            child: navigationBarHomePage(context),
+          ),
         ],
       ),
     ));
