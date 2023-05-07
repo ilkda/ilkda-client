@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+import 'package:ilkda_client/view/00_loading_page/widget_logo_section.dart';
 import 'package:ilkda_client/view_model/user_controller.dart';
 
 class LogInPage extends StatefulWidget {
@@ -13,28 +14,18 @@ class LogInPage extends StatefulWidget {
 
 class _LogInPageState extends State<LogInPage> {
 
-  @override
-  void initState() {
-    super.initState();
-    Get.find<UserController>().tryAutoSignIn().then((value) {
-      //페이지 이동
-      if(value) Get.toNamed("/Home");
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: context.theme.backgroundColor,
+      backgroundColor: context.theme.colorScheme.primary,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            _title(),
-            SizedBox(height: 15.h,),
-            _subTitle(),
-            SizedBox(height: 66.h),
+            LogoSection(context),
+            SizedBox(height: 258.h,),
             _kakaoButton(context),
           ],
         ),
@@ -43,23 +34,6 @@ class _LogInPageState extends State<LogInPage> {
   }
 
   //////////////////////////////////////////////////////////////////////////////elements
-  _title() => Container(
-    width: 197.w,
-    height: 77.h,
-    alignment: Alignment.center,
-    child: Text("읽다", style: TextStyle(
-      fontSize: 40.sp,
-    ),),
-  );
-
-  _subTitle() => Container(
-    width: 263.w,
-    height: 25.h,
-    alignment: Alignment.center,
-    child: Text(": 눈으로 보면서 그 내용이나 뜻을 알게 되다.", style: TextStyle(
-      fontSize: 14.sp,
-    ),),
-  );
 
   _kakaoButton(BuildContext context) => ElevatedButton(
     onPressed: () async {
@@ -76,14 +50,14 @@ class _LogInPageState extends State<LogInPage> {
     style: ElevatedButton.styleFrom(
       padding: EdgeInsets.symmetric(horizontal: 19.w),
       alignment: Alignment.center,
-      backgroundColor: context.theme.backgroundColor,
-      elevation: 0,
+      backgroundColor: context.theme.colorScheme.background,
+      elevation: 5,
       fixedSize: Size(
         239.w, 40.h
       ),
       shape: BeveledRectangleBorder(
         side: BorderSide(
-          color: context.theme.primaryColorDark,
+          color: context.theme.colorScheme.onSurface,
           width: 0.2.w,
         )
       )
@@ -99,7 +73,7 @@ class _LogInPageState extends State<LogInPage> {
           alignment: Alignment.center,
           child: Text("카카오로 시작하기", style: TextStyle(
             fontSize: 14.sp,
-            color: context.theme.primaryColorDark,
+            color: context.theme.colorScheme.onSurface,
           ),),
         ),
       ],
