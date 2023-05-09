@@ -92,6 +92,62 @@ class Record{
     return <Record>[];
   }
 
+  //////////////////////////////////////////////////////////////////////////////[GET] Finished Read Records List
+  static List<Record> FromJsonFinishedBookList(dynamic json){
+    List<Record> newRecordList = <Record>[];
+    List<dynamic>.from(Map<String, dynamic>.from(json)["response"]).forEach((element) {
+      Map<String, dynamic> e = Map<String, dynamic>.from(element);
+      newRecordList.add(
+          Record(
+            book: Book(
+              id: -1,
+              title: e["title"],
+              author: e["author"],
+              publisher: "",
+              publishedDate: "",
+              page: e["bookPage"],
+              cover: e["cover"],
+            ),
+            readId: e["id"],
+            readPage: e["readPage"],
+            review: e["text"],
+          )
+      );
+    });
+    newRecordList.add(Record.nullInit(book: Book.nullInit()));
+    return newRecordList;
+  }
+
+  static Future<List<Record>> GETFinishedRecordList() async {
+    ApiResponse apiResponse = ApiResponse();
+
+    try {
+      final response = await http.get(
+          Uri.parse("http://" + baseUrl + '/' + URLRecord + '/' + URLFinishedRecordList),
+          headers: {
+            "Authorization" : "Bearer " + Get.find<UserController>().accessToken.value
+          }
+      );
+
+      print(utf8.decode(response.bodyBytes));
+
+      switch (response.statusCode) {
+        case 200:
+          return Record.FromJsonFinishedBookList(json.decode(utf8.decode(response.bodyBytes)));
+        case 401:
+          apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
+          break;
+        default:
+          apiResponse.apiError = ApiError.fromJson(json.decode(response.body));
+          break;
+      }
+    } on SocketException {
+      apiResponse.apiError = ApiError(error: "Server error. Please retry");
+    }
+
+    return <Record>[];
+  }
+
   //////////////////////////////////////////////////////////////////////////////[PUT] page modify
   static Future<int> PUTModifyCurrentBookPage({required int readId, required int newPage}) async {
     try {

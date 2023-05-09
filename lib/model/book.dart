@@ -36,6 +36,10 @@ class Book{
     this.cover = "",
   });
 
+  bool ifBookNull(){
+    return id == 0;
+  }
+
   //////////////////////////////////////////////////////////////////////////////Search Book List
   static List<Book> SearchBooksJson(dynamic json){
     List<Book> newBooks = <Book>[];

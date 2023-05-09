@@ -19,10 +19,10 @@ class BookShelfPage extends StatelessWidget {
             top: 0,
             child: Column(
               children: [
-                SizedBox(height: 33.h,),
+                SizedBox(height: 71.h,),
                 bookCalendar(),
-                SizedBox(height: 14.h,),
-                myBookShelf(),
+                SizedBox(height: 26.h,),
+                myBookShelf(context),
               ]
             ),
           ),

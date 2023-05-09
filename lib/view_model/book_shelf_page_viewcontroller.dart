@@ -1,11 +1,17 @@
 import 'package:get/get.dart';
 import 'package:ilkda_client/model/calendar.dart';
+import 'package:ilkda_client/model/record.dart';
 
 class BookShelfPageViewController extends GetxController {
 
+  @override
+  void onInit() {
+    super.onInit();
+    updateCalendar(DateTime(DateTime.now().year, DateTime.now().month + 1, 0));
+    updateMyRecordList();
+  }
+
   //////////////////////////////////////////////////////////////////////////////calendar
-  Rx<int> year = 2023.obs;
-  Rx<int> month = 3.obs;
 
   Rx<Calendar> calendar = Calendar.nullInit(
       calendarInfo: CalendarInfo.nullInit(
@@ -27,6 +33,10 @@ class BookShelfPageViewController extends GetxController {
   }
 
   //////////////////////////////////////////////////////////////////////////////My Records
+  RxList<Record> myRecordList = <Record>[].obs;
 
+  void updateMyRecordList() async {
+    myRecordList(await Record.GETFinishedRecordList());
+  }
 
 }
