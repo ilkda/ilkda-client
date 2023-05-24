@@ -35,6 +35,10 @@ class Record{
     return false;
   }
 
+  bool ifRecordNull(){
+    return readId == 0;
+  }
+
 
   //////////////////////////////////////////////////////////////////////////////[GET] Current Read Records List
   static List<Record> FromJsonCurrentBookList(dynamic json){
