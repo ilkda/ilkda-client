@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:get/get.dart";
 import 'package:ilkda_client/model/book.dart';
+import 'package:ilkda_client/model/record.dart';
 import 'package:ilkda_client/view_model/book_shelf_page_viewcontroller.dart';
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
@@ -64,10 +65,10 @@ Widget _bookShelf(){
         children: [
           for (var i = 0; i < Get.find<BookShelfPageViewController>().myRecordList.length; i += 3)
             (i + 3 < Get.find<BookShelfPageViewController>().myRecordList.length)
-            ? _bookShelfRow(Get.find<BookShelfPageViewController>().myRecordList.sublist(i, i + 3).map((e) => e.book).toList())
+            ? _bookShelfRow(Get.find<BookShelfPageViewController>().myRecordList.sublist(i, i + 3).toList())
             : _bookShelfRow(
-                Get.find<BookShelfPageViewController>().myRecordList.sublist(i).map((e) => e.book).toList()
-                + [for(int i = 0; i < 3 - Get.find<BookShelfPageViewController>().myRecordList.length - i; i++) Book.nullInit()]
+                Get.find<BookShelfPageViewController>().myRecordList.sublist(i).toList()
+                + [for(int i = 0; i < 3 - Get.find<BookShelfPageViewController>().myRecordList.length - i; i++) Record.nullInit(book: Book.nullInit())]
             )
         ] + [SizedBox(height: 64.h + 3.h,)],
       ),
@@ -75,34 +76,39 @@ Widget _bookShelf(){
   );
 }
 
-Widget _bookShelfRow(List<Book> bookList){
+Widget _bookShelfRow(List<Record> recordList){
   return Row(
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     crossAxisAlignment: CrossAxisAlignment.end,
-    children: bookList.map((e){
-      return e.ifBookNull()
+    children: recordList.map((e){
+      return e.ifRecordNull()
       ? _emptyBookShelfElement()
       : _bookShelfElement(e);
     }).toList(),
   );
 }
 
-Widget _bookShelfElement(Book book){
-  return Container(
-    width: 90.w,
-    child: Column(
-      children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(6.r),
-          child: Image.network(book.cover, fit: BoxFit.fill)
-        ),
-        SizedBox(height: 7.36.h,),
-        Text(book.title, style: TextStyle(
-          fontSize: 10.sp,
-          fontWeight: FontWeight.w400,
-          overflow: TextOverflow.ellipsis
-        ),),
-      ],
+Widget _bookShelfElement(Record record){
+  return GestureDetector(
+    onTap: (){
+      Get.toNamed("/BookShelf/ViewBook", arguments: {"record" : record});
+    },
+    child: Container(
+      width: 90.w,
+      child: Column(
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(6.r),
+            child: Image.network(record.book.cover, fit: BoxFit.fill)
+          ),
+          SizedBox(height: 7.36.h,),
+          Text(record.book.title, style: TextStyle(
+            fontSize: 10.sp,
+            fontWeight: FontWeight.w400,
+            overflow: TextOverflow.ellipsis
+          ),),
+        ],
+      ),
     ),
   );
 }

@@ -65,6 +65,7 @@ Widget _calendarHeader() => Container(
 );
 
 Widget _calendarBody() => Container(
+  alignment: Alignment.center,
   padding: EdgeInsets.symmetric(horizontal: 13.w),
   child: Get.find<BookShelfPageViewController>().isCalendarNull()
     ? CircularProgressIndicator()
