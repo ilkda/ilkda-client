@@ -7,6 +7,8 @@ import 'package:ilkda_client/view/01_login_page/login_page.dart';
 import 'package:ilkda_client/view/12_read_book_page/read_book_page.dart';
 import 'package:ilkda_client/view/13_book_report_page/book_report_page.dart';
 import 'package:ilkda_client/view/20_book_shelf_page/book_shelf_page.dart';
+import 'package:ilkda_client/view/21_view_book_page/view_book_page.dart';
+import 'package:ilkda_client/view/22_view_book_review_page/view_book_review_page.dart';
 import 'package:ilkda_client/view_model/book_shelf_page_viewcontroller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
@@ -42,6 +44,7 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(UserController());
               }),
+              transition: Transition.noTransition
             ),
             GetPage(
               name: "/LogIn",
@@ -49,6 +52,7 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(UserController());
               }),
+              transition: Transition.noTransition
             ),
 
             GetPage(
@@ -57,10 +61,12 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(HomePageViewController());
               }),
+              transition: Transition.noTransition
             ),
             GetPage(
               name: "/Home/Search",
               page: () => const SearchPage(),
+              transition: Transition.noTransition
             ),
             GetPage(
               name: "/Home/ReadBook",
@@ -68,6 +74,7 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(HomePageViewController());
               }),
+              transition: Transition.noTransition
             ),
             GetPage(
               name: "/Home/BookReport",
@@ -75,6 +82,7 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(HomePageViewController());
               }),
+              transition: Transition.noTransition
             ),
 
             GetPage(
@@ -84,6 +92,23 @@ class IlkdaClient extends StatelessWidget {
                 Get.put(HomePageViewController());
                 Get.put(BookShelfPageViewController());
               }),
+              transition: Transition.noTransition
+            ),
+            GetPage(
+              name: "/BookShelf/ViewBook",
+              page: () => ViewBookPage(
+                record: Get.arguments["record"],
+              ),
+              arguments: const { "record",},
+              transition: Transition.noTransition
+            ),
+            GetPage(
+              name: "/BookShelf/ViewBookReview",
+              page: () => ViewBookReviewPage(
+                review: Get.arguments["review"],
+              ),
+              arguments: const { "review",},
+              transition: Transition.noTransition
             ),
           ],
 

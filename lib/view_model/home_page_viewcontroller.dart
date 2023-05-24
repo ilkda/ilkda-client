@@ -8,7 +8,7 @@ class HomePageViewController extends GetxController{
 
   //////////////////////////////////////////////////////////////////////////////home page
   //Current Record Lists
-  RxList<Record> currentRecordList = <Record>[Record.nullInit(book: Book.nullInit())].obs;
+  RxList<Record> currentRecordList = <Record>[].obs;
   // RxList<Record> currentRecordList = <Record>[
   //   Record(
   //     book: Book(

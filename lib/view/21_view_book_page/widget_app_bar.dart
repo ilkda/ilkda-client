@@ -4,27 +4,23 @@ import 'package:get/get.dart';
 
 import 'package:ilkda_client/view_model/home_page_viewcontroller.dart';
 
-Widget appBarViewBookPage() => Container(
-  height: 55.h,
+Widget appBarViewBookPage(BuildContext context) => Container(
+  height: 16.59.h,
   width: 360.w,
-  child: Row(
-    mainAxisAlignment: MainAxisAlignment.start,
-    children: [
-      SizedBox(width: 42.w,),
-      _backArrow(),
-    ],
-  ),
+  alignment: Alignment.centerLeft,
+  padding: EdgeInsets.symmetric(horizontal: 42.w),
+  child: _backArrow(context),
 );
 
 ////////////////////////////////////////////////////////////////////////////////elements
 
-Widget _backArrow() => GestureDetector(
+Widget _backArrow(BuildContext context) => GestureDetector(
   onTap: (){
-    Get.find<HomePageViewController>().searchCurrentRecordList();
-    Get.toNamed("/Home");
+    Get.back();
   },
-  child: Icon(
-    Icons.arrow_back_ios_sharp,
-    size: Size(10.6.w, 20.91.h).longestSide,
+  child: Image.asset(
+    "assets/icons/back.png",
+    height: 15.41.h,
+    color: context.theme.colorScheme.outline,
   ),
 );
