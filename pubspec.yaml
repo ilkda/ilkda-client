@@ -42,6 +42,7 @@ dependencies:
   kakao_flutter_sdk_user: ^1.4.0
   flutter_secure_storage: ^7.0.1
   http: ^0.13.5
+  palette_generator: ^0.3.3+2
 
 dev_dependencies:
   flutter_test:
