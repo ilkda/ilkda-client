@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:ilkda_client/model/ilkda_user.dart';
 import 'package:ilkda_client/servicies/login/login_kakao_oauth.dart';
 import 'package:ilkda_client/servicies/login/get_refresh_token_from_local_storage.dart';
 import 'package:ilkda_client/servicies/login/login_server.dart';
@@ -28,9 +29,6 @@ class UserController extends GetxController{
   Future<bool> tryKakaoLogin() async {
     OAuthToken? token = await kakaoLogin();
     print(token!.accessToken);
-    if(token == null){
-      return false;
-    }
 
     if(await trySignUp(token) == false){
       return false;
@@ -62,4 +60,11 @@ class UserController extends GetxController{
     this.accessToken(accessToken);
     return true;
   }
+
+  //////////////////////////////////////////////////////////////////////////////IlkdaUser
+  IlkdaUser ilkdaUser = IlkdaUser(
+    name: "ayang",
+    email: ""
+  );
+
 }
