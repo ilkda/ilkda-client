@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:ilkda_client/view/31_club_registeration_page/widget_club_member_section.dart';
-import 'package:ilkda_client/view/31_club_registeration_page/widget_club_name_section.dart';
+import 'package:ilkda_client/view/31_club_registration_page/widget_club_member_section.dart';
+import 'package:ilkda_client/view/31_club_registration_page/widget_club_name_section.dart';
 import 'package:ilkda_client/view_model/club_page_viewcontroller.dart';
 import 'package:ilkda_client/view_model/user_controller.dart';
 
 import 'widget_navigation_bar.dart';
 
-class ClubRegisterationPage extends StatelessWidget {
-  const ClubRegisterationPage({Key? key}) : super(key: key);
+class ClubRegistrationPage extends StatelessWidget {
+  const ClubRegistrationPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

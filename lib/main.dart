@@ -10,7 +10,7 @@ import 'package:ilkda_client/view/20_book_shelf_page/book_shelf_page.dart';
 import 'package:ilkda_client/view/21_view_book_page/view_book_page.dart';
 import 'package:ilkda_client/view/22_view_book_review_page/view_book_review_page.dart';
 import 'package:ilkda_client/view/30_club_home_page/club_home_page.dart';
-import 'package:ilkda_client/view/31_club_registeration_page/club_registeration_page.dart';
+import 'package:ilkda_client/view/31_club_registration_page/club_registration_page.dart';
 import 'package:ilkda_client/view_model/book_shelf_page_viewcontroller.dart';
 import 'package:ilkda_client/view_model/club_page_viewcontroller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
@@ -127,7 +127,7 @@ class IlkdaClient extends StatelessWidget {
             ),
             GetPage(
               name: "/Club/Registeration",
-              page: () => ClubRegisterationPage(),
+              page: () => ClubRegistrationPage(),
               transition: Transition.noTransition
             ),
           ],
