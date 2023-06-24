@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-Widget navigationBarHomePage(BuildContext context) => Hero(
+Widget navigationBarClubRegisteration() => Hero(
   tag: "navigationBar",
   child: Container(
     height: 64.h,
     width: 360.w,
     decoration: BoxDecoration(
-      color: context.theme.colorScheme.background,
+      color: Colors.white,
       boxShadow: [
         BoxShadow(
           color: Colors.black.withOpacity(0.25),
@@ -21,9 +21,9 @@ Widget navigationBarHomePage(BuildContext context) => Hero(
     child: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _navigationBarElement("assets/images/read.png", ""),
-        _navigationBarElement("assets/images/book_shelf.png", "/BookShelf"),
-        _navigationBarElement("assets/images/group.png", "/Club"),
+        _navigationBarElement("assets/images/read.png", "/Home"),
+        _navigationBarElement("assets/images/book_shelf.png", ""),
+        _navigationBarElement("assets/images/group.png", ""),
         _navigationBarElement("assets/images/account.png", ""),
       ],
     ),

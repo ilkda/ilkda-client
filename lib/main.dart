@@ -9,7 +9,10 @@ import 'package:ilkda_client/view/13_book_report_page/book_report_page.dart';
 import 'package:ilkda_client/view/20_book_shelf_page/book_shelf_page.dart';
 import 'package:ilkda_client/view/21_view_book_page/view_book_page.dart';
 import 'package:ilkda_client/view/22_view_book_review_page/view_book_review_page.dart';
+import 'package:ilkda_client/view/30_club_home_page/club_home_page.dart';
+import 'package:ilkda_client/view/31_club_registration_page/club_registration_page.dart';
 import 'package:ilkda_client/view_model/book_shelf_page_viewcontroller.dart';
+import 'package:ilkda_client/view_model/club_page_viewcontroller.dart';
 import 'package:kakao_flutter_sdk_user/kakao_flutter_sdk_user.dart';
 
 import 'constants/key.dart';
@@ -36,7 +39,10 @@ class IlkdaClient extends StatelessWidget {
           debugShowCheckedModeBanner: false,
           title: '읽다',
           initialRoute: "/",
-          initialBinding: BindingsBuilder(() {}),
+          initialBinding: BindingsBuilder(() {
+            //test
+            Get.put(UserController());
+          }),
           getPages: [
             GetPage(
               name: "/",
@@ -110,6 +116,20 @@ class IlkdaClient extends StatelessWidget {
               arguments: const { "review",},
               transition: Transition.noTransition
             ),
+
+            GetPage(
+              name: "/Club",
+              page: () => ClubHomePage(),
+              transition: Transition.noTransition,
+              binding: BindingsBuilder(() {
+                Get.put(ClubPageViewController());
+              }),
+            ),
+            GetPage(
+              name: "/Club/Registeration",
+              page: () => ClubRegistrationPage(),
+              transition: Transition.noTransition
+            ),
           ],
 
           theme: ThemeData(
@@ -119,7 +139,9 @@ class IlkdaClient extends StatelessWidget {
               primary: Color(0xFFFF7A8A),
               outline: Color(0xFF000000),
               onSurface: Color(0xFF585858),
+              // onTertiary: Color(0xFF797979),
               surface: Color(0xFF9E9E9E),
+              tertiary: Color(0xFFABABAB),
               onBackground: Color(0xFFCFCFCF),
               onPrimary: Color(0xFFF2F2F2),
               background: Color(0xFFFFFFFF),
