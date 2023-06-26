@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:ilkda_client/view/00_loading_page/loading_page.dart';
 import 'package:ilkda_client/view/01_login_page/login_page.dart';
+import 'package:ilkda_client/view/02_user_name_set_page/user_name_set_page.dart';
 import 'package:ilkda_client/view/12_read_book_page/read_book_page.dart';
 import 'package:ilkda_client/view/13_book_report_page/book_report_page.dart';
 import 'package:ilkda_client/view/20_book_shelf_page/book_shelf_page.dart';
@@ -39,7 +40,7 @@ class IlkdaClient extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: '읽다',
-          initialRoute: "/",
+          initialRoute: "/LogIn/UserNameSet",
           initialBinding: BindingsBuilder(() {
             //test
             Get.put(UserController());
@@ -59,6 +60,11 @@ class IlkdaClient extends StatelessWidget {
               binding: BindingsBuilder(() {
                 Get.put(UserController());
               }),
+              transition: Transition.noTransition
+            ),
+            GetPage(
+              name: "/LogIn/UserNameSet",
+              page: () => UserNameSetPage(),
               transition: Transition.noTransition
             ),
 
