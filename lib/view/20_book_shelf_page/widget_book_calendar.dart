@@ -6,12 +6,13 @@ import 'package:ilkda_client/view_model/book_shelf_page_viewcontroller.dart';
 
 Widget bookCalendar(){
   return Container(
-    width: 327.w,
-    height: 359.h,
+    width: 324.w,
+    height: 382.h,
     child: Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
-        _title(),
-        SizedBox(height: 7.h,),
+        _calendarHeader(),
+        SizedBox(height: 28.h,),
        _calendar(),
         SizedBox(height: 23.h,),
         _indicator(),
@@ -21,14 +22,51 @@ Widget bookCalendar(){
 }
 
 ////////////////////////////////////////////////////////////////////////////////title
-Widget _title() => Container(
-  width: 324.w,
-  child: Text("독서 달력", style: TextStyle(
-    fontSize: 16.sp,
-    fontWeight: FontWeight.w500,
-  ),)
+Widget _calendarHeader() => Container(
+  height: 19.h,
+  width: 276.w,
+  child: Row(
+    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children: [
+      Container(
+        height: 16.h,
+        width: 30.w,
+        color: Colors.transparent,
+        child: GestureDetector(
+          onTap: (){
+            Get.find<BookShelfPageViewController>().updateCalendarWithPrevMonth();
+          },
+          child: Icon(
+            Icons.arrow_back_ios,
+            size: 16.h,
+          ),
+        ),
+      ),
+      Text(
+        "${Get.find<BookShelfPageViewController>().calendar.value.calendarInfo.thisMonth.year}년 ${Get.find<BookShelfPageViewController>().calendar.value.calendarInfo.thisMonth.month}월",
+        style: TextStyle(
+          fontSize: 16.sp,
+          fontWeight: FontWeight.w500,
+          height: 1,
+        ),
+      ),
+      Container(
+        height: 16.h,
+        width: 30.w,
+        color: Colors.transparent,
+        child: GestureDetector(
+          onTap: (){
+            Get.find<BookShelfPageViewController>().updateCalendarWithNextMonth();
+          },
+          child: Icon(
+            Icons.arrow_forward_ios,
+            size: 16.h,
+          ),
+        ),
+      ),
+    ],
+  ),
 );
-
 
 ////////////////////////////////////////////////////////////////////////////////calendar
 Widget _calendar() => Container(
@@ -45,23 +83,7 @@ Widget _calendar() => Container(
       ),
     ],
   ),
-  child: Column(
-    children: [
-      _calendarHeader(),
-      Flexible(child: _calendarBody()),
-    ],
-  ),
-);
-
-Widget _calendarHeader() => Container(
-  padding: EdgeInsets.symmetric(vertical: 7.h),
-  child: Text(
-    "${Get.find<BookShelfPageViewController>().calendar.value.calendarInfo.thisMonth.year}년 ${Get.find<BookShelfPageViewController>().calendar.value.calendarInfo.thisMonth.month}월",
-    style: TextStyle(
-      fontSize: 12.sp,
-      fontWeight: FontWeight.w400,
-    ),
-  ),
+  child: _calendarBody(),
 );
 
 Widget _calendarBody() => Container(

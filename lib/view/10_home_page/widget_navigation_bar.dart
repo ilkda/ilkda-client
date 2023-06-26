@@ -24,7 +24,7 @@ Widget navigationBarHomePage(BuildContext context) => Hero(
         _navigationBarElement("assets/images/read.png", ""),
         _navigationBarElement("assets/images/book_shelf.png", "/BookShelf"),
         _navigationBarElement("assets/images/group.png", "/Club"),
-        _navigationBarElement("assets/images/account.png", ""),
+        _navigationBarElement("assets/images/account.png", "/MyPage"),
       ],
     ),
   ),
