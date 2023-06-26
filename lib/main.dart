@@ -40,7 +40,7 @@ class IlkdaClient extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: '읽다',
-          initialRoute: "/LogIn/UserNameSet",
+          initialRoute: "/",
           initialBinding: BindingsBuilder(() {
             //test
             Get.put(UserController());

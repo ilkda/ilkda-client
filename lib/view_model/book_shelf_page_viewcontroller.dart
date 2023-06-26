@@ -28,6 +28,26 @@ class BookShelfPageViewController extends GetxController {
     calendar.refresh();
   }
 
+  void updateCalendarWithPrevMonth() async {
+    calendar.value.calendarInfo.thisMonth = DateTime(
+        calendar.value.calendarInfo.thisMonth.year,
+        calendar.value.calendarInfo.thisMonth.month,
+        0
+    );
+    updateCalendar(calendar.value.calendarInfo.thisMonth);
+    calendar.refresh();
+  }
+
+  void updateCalendarWithNextMonth() async {
+    calendar.value.calendarInfo.thisMonth = DateTime(
+        calendar.value.calendarInfo.thisMonth.year,
+        calendar.value.calendarInfo.thisMonth.month + 2,
+        0
+    );
+    updateCalendar(calendar.value.calendarInfo.thisMonth);
+    calendar.refresh();
+  }
+
   bool isCalendarNull(){
     return calendar.value.isNull();
   }
